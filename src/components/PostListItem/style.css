@@ -1,0 +1,10 @@
+.list-ul{
+    border-bottom: 1px solid #000;
+    padding:10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.list-item{
+    margin-left:30px;
+    font-weight: 400;
+}

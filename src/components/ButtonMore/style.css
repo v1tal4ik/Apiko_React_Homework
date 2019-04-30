@@ -1,0 +1,10 @@
+.more-btn{
+    padding: 7px 15px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border: 1px solid rgb(17, 224, 27);
+    border-radius: 10px;
+    background: rgb(22, 214, 96);
+    color:#fff;
+    outline:none;
+}
