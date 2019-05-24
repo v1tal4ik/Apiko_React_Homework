@@ -1,7 +1,11 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
+#container{
+   width: 60%;
+   height: 500px;
+   position: absolute;
+   top: 15%;
+   left: 50%;
+   transform: translate(-50%,-10%);
+   background: #fff;
+   padding: 20px;
+   border-radius: 20px;
+  }

@@ -1,0 +1,21 @@
+#menu{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.route{
+    color: #fff;
+    padding: 7px 14px;
+    background: rgb(71, 238, 65);
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: all .2s ease;
+}
+
+.route:hover{
+    background: rgba(6, 78, 4, 0.465);
+    cursor: pointer;
+}
