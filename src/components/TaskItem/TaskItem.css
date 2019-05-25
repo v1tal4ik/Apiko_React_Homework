@@ -1,0 +1,40 @@
+.todo-list-item{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  word-wrap: unset;
+  padding: 10px 10px 10px 5px;
+  border-bottom: 1px solid #c9c9c9;
+  transition: all 0.5s ease;
+}
+
+.text-content{
+  width: 70%;
+  text-align: left;
+}
+
+.control-block{
+  width: 100%;
+  text-align: right;
+}
+
+.fas{
+  margin-right:10px;
+  transition: all 0.2s ease;
+}
+
+.fas:hover{
+  cursor: pointer;
+}
+
+.fa-check:hover{
+  color:rgba(248, 252, 5, 0.527);
+}
+
+.fa-times:hover{
+  color: red;
+}
+
+.completed{
+  color: rgb(35, 247, 7);
+}
