@@ -4,12 +4,12 @@ import './WishList.css';
 
 class WishList extends Component {
     render(){
-        const{toggle,remove,arrList} =this.props;
+        const{arrList} =this.props;
         return(
             <div id='todo-list-content'>
                 <div id='todo-list'>
                     {
-                        arrList.map(el=>(<TaskItem key={el.id} id={el.id} text={el.text} isDone={el.isDone} toggle={toggle} remove={remove}/>))
+                        arrList.map(el=>(<TaskItem key={el.id} id={el.id} text={el.text} isDone={el.isDone} />))
                     }
                 </div>
             </div>

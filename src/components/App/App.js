@@ -1,94 +1,58 @@
 import React ,{ Component }from 'react';
-import {BrowserRouter,Route,Redirect,Switch} from 'react-router-dom';
+import { connect } from 'react-redux';
+import {addOneFromToTaskList,editOneFromTaskList,removeOneFromTaskList} from '../../modules/actions';
+import {getCurrentMode} from '../../modules/reducers';
 import Menu from '../Menu';
 import All from '../ModeList/All';
+import Foo from '../ModeList/All';
 import Completed from '../ModeList/Completed/Completed';
 import New from '../ModeList/New/New';
 import './App.css';
 
 
-
+export const {
+    Consumer:ContextConsumer,
+    Provider:ContextProvider
+  } = React.createContext('');
 
 class App extends Component{
-    state={
-        toDoList:[]
-    }
-
-    handleAddTask=(value)=>{
-        this.state.toDoList.push({
-            id:Math.floor(Math.random()* 1000000),
-            text:value,
-            isDone:false
-        });
-    } 
     
-    handleToggleStatusTask=(id)=>{
-        const {toDoList:arr} = this.state;
-        arr.forEach((el)=>{
-            if(el.id === id){
-                el.isDone= el.isDone ? false:true;
-            }
-        });
-        this.setState({toDoList:arr});
+    handleAddTask=()=>{
+        const {addOneFromToTaskList} = this.props;
+        const newTask ={
+            id:Math.floor(Math.random()* 1000000),
+            text:this.state.inputValue,
+            isDone:false
+        }
+        addOneFromToTaskList(newTask);
     }
-
-    handleRemoveTask=(id)=>{
-        const {toDoList:arr} = this.state;
-        arr.forEach((el,index)=>(el.id===id) ? this.state.toDoList.splice(index,1): null);
-        this.setState({toDoList:arr});
+    
+    callEditAction=(e)=>{
+        const {editOneFromTaskList} = this.props;
+        const id = e.target.getAttribute('data-id');
+        editOneFromTaskList(+id);
     }
-
     render(){
         return (
-            <BrowserRouter>
-                <div id='container'>
-                    <Switch>
-                        <Route 
-                            path='/' 
-                            render = {(props)=>
-                            <All 
-                                add = {this.handleAddTask}
-                                toggle={this.handleToggleStatusTask} 
-                                remove={this.handleRemoveTask} 
-                                arrList={this.state.toDoList} 
-                                {...props} 
-                            />} 
-                            exact 
-                        />
-
-                        
-                        <Route 
-                            path='/completed' 
-                            render = {(props)=>
-                                <Completed
-                                    toggle={this.handleToggleStatusTask}
-                                    remove={this.handleRemoveTask} 
-                                    arrList={this.state.toDoList} 
-                                    {...props} 
-                                />} 
-                            exact 
-                        />
-
-
-                        <Route 
-                            path='/new' 
-                            render = {(props)=>
-                                <New 
-                                toggle={this.handleToggleStatusTask}
-                                remove={this.handleRemoveTask}
-                                arrList={this.state.toDoList} 
-                                {...props} 
-                                />} 
-                            exact 
-                        />
-
-                        <Redirect to='/' />
-                    </Switch>
-                    <Menu />
-                </div>
-            </BrowserRouter>
+            <ContextProvider value={'lalala'}>
+                <Foo />
+                <Menu />
+            </ContextProvider>
         )
     }
 }
 
+
 export default App;
+// export default connect(state=>({
+//     currentMode:getCurrentMode(state)
+// }),{addOneFromToTaskList,editOneFromTaskList,removeOneFromTaskList})(App);
+
+
+
+
+/*
+{currentMode === 'all'? <All />: null}
+                    {currentMode === 'new'? <New />: null}
+                    {currentMode === 'completed'? <Completed />: null}
+                    */

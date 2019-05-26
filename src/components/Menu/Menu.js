@@ -1,18 +1,24 @@
 import React,{Component} from 'react';
-import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import {changeCurrentMode} from '../../modules/actions';
 import './Menu.css';
 
 class Menu extends Component {
+
+    handleChangeCurrentMode=(e)=>{
+      const {changeCurrentMode} = this.props;
+      changeCurrentMode(e.target.name);
+    }
       render(){
         return (
             <div id="menu">
-              <Link className='route' to='/'>All</Link>
-              <Link className='route' to='/new'>New</Link>
-              <Link className='route' to='/completed'>Completed</Link>
+              <button className='route' onClick={this.handleChangeCurrentMode} name='all'>All</button>
+              <button className='route' onClick={this.handleChangeCurrentMode} name='new'>New</button>
+              <button className='route' onClick={this.handleChangeCurrentMode} name='completed'>Completed</button>
             </div>
         )
     }
 }
 
-export default Menu;
+export default connect(null,{changeCurrentMode})(Menu);
 
