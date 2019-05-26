@@ -5,6 +5,7 @@ import createStore from './store';
 import { Provider } from 'react-redux';
 import './index.css';
 
+
 const store = createStore();
 
 ReactDOM.render(

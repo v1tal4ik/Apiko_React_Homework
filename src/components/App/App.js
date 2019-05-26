@@ -1,58 +1,57 @@
 import React ,{ Component }from 'react';
 import { connect } from 'react-redux';
 import {addOneFromToTaskList,editOneFromTaskList,removeOneFromTaskList} from '../../modules/actions';
-import {getCurrentMode} from '../../modules/reducers';
+import {getTaskList,getCurrentMode} from '../../modules/reducers';
 import Menu from '../Menu';
 import All from '../ModeList/All';
-import Foo from '../ModeList/All';
 import Completed from '../ModeList/Completed/Completed';
 import New from '../ModeList/New/New';
 import './App.css';
 
 
-export const {
-    Consumer:ContextConsumer,
-    Provider:ContextProvider
-  } = React.createContext('');
+
 
 class App extends Component{
-    
-    handleAddTask=()=>{
-        const {addOneFromToTaskList} = this.props;
-        const newTask ={
+    state={
+        observer:0
+    }
+    handleAddTask=(value)=>{
+        const {addOneFromToTaskList}=this.props;
+        const obj ={
             id:Math.floor(Math.random()* 1000000),
-            text:this.state.inputValue,
+            text:value,
             isDone:false
         }
-        addOneFromToTaskList(newTask);
-    }
+        addOneFromToTaskList(obj);
+    } 
     
-    callEditAction=(e)=>{
+    handleToggleStatusTask=(id)=>{
         const {editOneFromTaskList} = this.props;
-        const id = e.target.getAttribute('data-id');
-        editOneFromTaskList(+id);
+        editOneFromTaskList(id);
+        this.setState({observer:Math.random()});
     }
+
+    handleRemoveTask=(id)=>{
+        const {removeOneFromTaskList} = this.props;
+        removeOneFromTaskList(id);
+        this.setState({observer:Math.random()});
+    }
+
     render(){
+        const {taskList,currentMode} = this.props;
         return (
-            <ContextProvider value={'lalala'}>
-                <Foo />
+            <div id='container'>
+                {currentMode === 'all'? 
+                    <All arrList={taskList} add={this.handleAddTask} toggle={this.handleToggleStatusTask} remove={this.handleRemoveTask} />: null}
+                {currentMode === 'new'? <New arrList={taskList} toggle={this.handleToggleStatusTask} remove={this.handleRemoveTask}/>: null}
+                {currentMode === 'completed'? <Completed arrList={taskList} toggle={this.handleToggleStatusTask} remove={this.handleRemoveTask}/>: null}
                 <Menu />
-            </ContextProvider>
+            </div>
         )
     }
 }
 
-
-export default App;
-// export default connect(state=>({
-//     currentMode:getCurrentMode(state)
-// }),{addOneFromToTaskList,editOneFromTaskList,removeOneFromTaskList})(App);
-
-
-
-
-/*
-{currentMode === 'all'? <All />: null}
-                    {currentMode === 'new'? <New />: null}
-                    {currentMode === 'completed'? <Completed />: null}
-                    */
+export default connect(state=>({
+    taskList:getTaskList(state),
+    currentMode:getCurrentMode(state)
+}),{addOneFromToTaskList,editOneFromTaskList,removeOneFromTaskList})(App);

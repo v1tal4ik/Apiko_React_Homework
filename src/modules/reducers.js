@@ -22,7 +22,10 @@ export const taskList = handleActions({
         });
         return state;
     },
-    [removeOneFromTaskList] : (_state,action)=>action.payload,
+    [removeOneFromTaskList] : (state,action)=>{
+         state.forEach((el,index)=>(el.id===action.payload) ? state.splice(index,1): null);
+         return state;
+    },
 },[]);
 
 export const currentMode = handleActions({
