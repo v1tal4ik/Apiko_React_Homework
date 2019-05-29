@@ -1,14 +1,91 @@
-import React ,{ Component }from 'react';
+import React from 'react';
 import {BrowserRouter,Route,Redirect,Switch} from 'react-router-dom';
+import {compose,withStateHandlers} from 'recompose';
 import Menu from '../Menu';
 import All from '../ModeList/All';
 import Completed from '../ModeList/Completed/Completed';
 import New from '../ModeList/New/New';
 import './App.css';
 
+const enhance = compose(
+    withStateHandlers(
+        ({initialValue=[]})=>({
+            toDoList:initialValue
+        }),
+       {
+        handleAddTask:(state)=>(value)=>{
+            state.toDoList.push({
+                id:Math.floor(Math.random()* 1000000),
+                text:value,
+                isDone:false
+            })
+        },
+        handleToggleStatusTask:(state)=>(id)=>{
+            state.toDoList.forEach((el)=>{
+                if(el.id === id){
+                    el.isDone = el.isDone ? false:true;
+                }
+            });
+            return state.toDoList;
+        },
+        handleRemoveTask:(state)=>(id)=>{
+            state.toDoList.forEach((el,index)=>(el.id===id) ? state.toDoList.splice(index,1): null);
+            return state.toDoList;
+        }
+       }
+    )
+)
 
 
+const App = enhance((state)=>
+    <BrowserRouter>
+    <div id='container'>
+        <Switch>
+            <Route 
+                path='/' 
+                render = {(props)=>
+                <All 
+                    add = {state.handleAddTask}
+                    toggle = {state.handleToggleStatusTask}
+                    remove = {state.handleRemoveTask}
+                    arrList={state.toDoList} 
+                    {...props} 
+                />} 
+                exact 
+            />
+            <Route 
+                path='/completed' 
+                render = {(props)=>
+                    <Completed
+                        toggle={state.handleToggleStatusTask}
+                        remove={state.handleRemoveTask} 
+                        arrList={state.toDoList} 
+                        {...props} 
+                    />} 
+                exact 
+            />
 
+            <Route 
+                path='/new' 
+                render = {(props)=>
+                    <New
+                        toggle={state.handleToggleStatusTask}
+                        remove={state.handleRemoveTask} 
+                        arrList={state.toDoList} 
+                        {...props} 
+                    />} 
+                exact 
+            />
+            <Redirect to='/' />
+        </Switch>
+        <Menu />
+    </div>
+    </BrowserRouter>
+)
+export default App;
+
+
+/*
 class App extends Component{
     state={
         toDoList:[]
@@ -91,4 +168,4 @@ class App extends Component{
     }
 }
 
-export default App;
+export default App;*/
