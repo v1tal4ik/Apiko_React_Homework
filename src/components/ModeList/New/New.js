@@ -1,10 +1,18 @@
 import React from 'react';
+import { ContextConsumer } from '../../App/App';
 import WishList from '../../WishList';
 
 
-export default function New ({toggle,remove,arrList}){
-    const arrListCompleted = arrList.filter(item=>(!item.isDone));
-    return (
-        <WishList arrList={arrListCompleted} remove={remove} toggle={toggle}/>
-    )
-}
+const New =()=>(
+     <ContextConsumer >
+            {({toDoList})=>{
+                const arrListNew = toDoList.filter(item=>(!item.isDone));
+                return <WishList arrList={arrListNew} />
+            }}
+     </ContextConsumer>
+)
+
+export default New;
+
+
+

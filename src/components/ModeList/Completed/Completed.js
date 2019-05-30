@@ -1,10 +1,16 @@
 import React from 'react';
+import { ContextConsumer } from '../../App/App';
 import WishList from '../../WishList';
 
 
-export default function Completed ({toggle,remove,arrList}){
-    const arrListCompleted = arrList.filter(item=>(item.isDone));
-    return (
-        <WishList arrList={arrListCompleted} remove={remove} toggle={toggle}/>
-    )
-}
+ const Completed=()=>(
+    <ContextConsumer >
+        {({toDoList})=>{
+            const arrListCompleted = toDoList.filter(item=>(item.isDone));
+            return <WishList arrList={arrListCompleted} />
+        }}
+    </ContextConsumer>
+ )
+
+
+export default Completed;

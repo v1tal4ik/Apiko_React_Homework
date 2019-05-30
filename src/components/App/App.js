@@ -8,11 +8,17 @@ import './App.css';
 
 
 
+export const {
+    Consumer:ContextConsumer,
+    Provider:ContextProvider
+  } = React.createContext('');
+
 
 class App extends Component{
     state={
         toDoList:[]
     }
+    
 
     handleAddTask=(value)=>{
         this.state.toDoList.push({
@@ -40,54 +46,26 @@ class App extends Component{
 
     render(){
         return (
-            <BrowserRouter>
+            <ContextProvider value={{
+                    toDoList:this.state.toDoList,
+                    add:this.handleAddTask,
+                    toggle:this.handleToggleStatusTask,
+                    remove:this.handleRemoveTask
+                    }} >
+             <BrowserRouter>
                 <div id='container'>
                     <Switch>
-                        <Route 
-                            path='/' 
-                            render = {(props)=>
-                            <All 
-                                add = {this.handleAddTask}
-                                toggle={this.handleToggleStatusTask} 
-                                remove={this.handleRemoveTask} 
-                                arrList={this.state.toDoList} 
-                                {...props} 
-                            />} 
-                            exact 
-                        />
-
-                        
-                        <Route 
-                            path='/completed' 
-                            render = {(props)=>
-                                <Completed
-                                    toggle={this.handleToggleStatusTask}
-                                    remove={this.handleRemoveTask} 
-                                    arrList={this.state.toDoList} 
-                                    {...props} 
-                                />} 
-                            exact 
-                        />
-
-
-                        <Route 
-                            path='/new' 
-                            render = {(props)=>
-                                <New 
-                                toggle={this.handleToggleStatusTask}
-                                remove={this.handleRemoveTask}
-                                arrList={this.state.toDoList} 
-                                {...props} 
-                                />} 
-                            exact 
-                        />
-
+                        <Route path='/' component = {All} exact />
+                        <Route path='/new' component = {New} exact />
+                        <Route path='/completed' component = {Completed} exact />
                         <Redirect to='/' />
                     </Switch>
                     <Menu />
                 </div>
             </BrowserRouter>
+            </ContextProvider>
         )
+            
     }
 }
 
