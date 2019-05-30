@@ -8,7 +8,10 @@ import Completed from '../ModeList/Completed/Completed';
 import New from '../ModeList/New/New';
 import './App.css';
 
-
+export const {
+    Consumer:ContextConsumer,
+    Provider:ContextProvider
+  } = React.createContext('');
 
 
 class App extends Component{
@@ -40,13 +43,19 @@ class App extends Component{
     render(){
         const {taskList,currentMode} = this.props;
         return (
-            <div id='container'>
-                {currentMode === 'all'? 
-                    <All arrList={taskList} add={this.handleAddTask} toggle={this.handleToggleStatusTask} remove={this.handleRemoveTask} />: null}
-                {currentMode === 'new'? <New arrList={taskList} toggle={this.handleToggleStatusTask} remove={this.handleRemoveTask}/>: null}
-                {currentMode === 'completed'? <Completed arrList={taskList} toggle={this.handleToggleStatusTask} remove={this.handleRemoveTask}/>: null}
-                <Menu />
-            </div>
+            <ContextProvider value={{
+                toDoList:taskList,
+                add:this.handleAddTask,
+                toggle:this.handleToggleStatusTask,
+                remove:this.handleRemoveTask
+                }} >
+                <div id='container'>
+                    {currentMode === 'all'? <All />: null}
+                    {currentMode === 'new'? <New />: null}
+                    {currentMode === 'completed'? <Completed />: null}
+                    <Menu />
+                </div>
+        </ContextProvider>
         )
     }
 }
