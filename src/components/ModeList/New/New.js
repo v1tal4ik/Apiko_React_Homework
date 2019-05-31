@@ -1,24 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import {compose,withProps,getContext} from 'recompose';
 import WishList from '../../WishList';
-import {compose,withProps} from 'recompose';
 
 
 
 const enhance = compose(
     withProps((props)=>({
-        arrListNew:props.arrList.filter(item=>(!item.isDone))
+        arrListNew:props.toDoList.filter(item=>(!item.isDone))
     }))
 )
 
-const Completed = enhance(({toggle,remove,arrListNew})=>
-        <WishList arrList={arrListNew} remove={remove} toggle={toggle}/>
+const ComponentNew = enhance(({arrListNew})=>
+        <WishList arrList={arrListNew} />
 )
-export default Completed;
 
+const New = getContext({toDoList:PropTypes.array})(ComponentNew);
 
-// export default function New ({toggle,remove,arrList}){
-//     const arrListCompleted = arrList.filter(item=>(!item.isDone));
-//     return (
-//         <WishList arrList={arrListCompleted} remove={remove} toggle={toggle}/>
-//     )
-// }
+export default New;
